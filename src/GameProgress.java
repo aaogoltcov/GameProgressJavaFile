@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 public class GameProgress implements Serializable {
@@ -35,6 +36,41 @@ public class GameProgress implements Serializable {
       }
     } catch (Exception error) {
       throw new Exception("При архивации файлов произошла ошибка: " + error);
+    }
+  }
+
+  public static void openZip(String zipFileUrl, String unZipDirectory) throws Exception {
+    try (ZipInputStream zin = new ZipInputStream(new FileInputStream(zipFileUrl))) {
+      ZipEntry zipEntry;
+      String name;
+
+      while ((zipEntry = zin.getNextEntry()) != null) {
+        name = zipEntry.getName();
+
+        FileOutputStream fout = new FileOutputStream(unZipDirectory + "/" + name);
+
+        for (int c = zin.read(); c != -1; c = zin.read()) {
+          fout.write(c);
+        }
+
+        fout.flush();
+        zin.closeEntry();
+        fout.close();
+      }
+
+    } catch (Exception error) {
+      throw new Exception("При распаковке файла произошла ошибка: " + error);
+    }
+  }
+
+  public static void openProgress(String fileUrl) throws Exception {
+    try (FileInputStream fis = new FileInputStream(fileUrl);
+         ObjectInputStream ois = new ObjectInputStream(fis)) {
+      GameProgress gameProgress = (GameProgress) ois.readObject();
+
+      System.out.println(gameProgress);
+    } catch (Exception error) {
+      throw new Exception("При десериализации файла произошла ошибка: " + error);
     }
   }
 

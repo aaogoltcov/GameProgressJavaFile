@@ -16,5 +16,13 @@ public class Main {
         "/Users/alekseyogoltsov/Games/savegames/save2.dat",
         "/Users/alekseyogoltsov/Games/savegames/save3.dat"
     }, "/Users/alekseyogoltsov/Games/savegames/save.zip");
+
+    GameProgress.openZip(
+        "/Users/alekseyogoltsov/Games/savegames/save.zip",
+        "/Users/alekseyogoltsov/Games/savegames");
+
+    GameProgress.openProgress("/Users/alekseyogoltsov/Games/savegames/save1.dat");
+    GameProgress.openProgress("/Users/alekseyogoltsov/Games/savegames/save1.dat");
+    GameProgress.openProgress("/Users/alekseyogoltsov/Games/savegames/save1.dat");
   }
 }
